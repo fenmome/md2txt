@@ -1,0 +1,39 @@
+{
+    "title": "MD2TXT - Markdown to Text Converter",
+    "header": "MD2TXT",
+    "description": "Convert Markdown to plain text online",
+    "input": {
+        "title": "Input Markdown",
+        "placeholder": "Enter your Markdown text here..."
+    },
+    "buttons": {
+        "convert": "Convert",
+        "clear": "Clear",
+        "copy": "Copy"
+    },
+    "output": {
+        "title": "Output Text",
+        "placeholder": "Converted text will appear here..."
+    },
+    "messages": {
+        "inputRequired": "Please enter some Markdown text",
+        "converted": "Conversion completed",
+        "copied": "Text copied to clipboard",
+        "cleared": "Content cleared",
+        "nothingToCopy": "Nothing to copy"
+    },
+    "instructions": {
+        "title": "How to Use",
+        "steps": [
+            "Enter or paste your Markdown text in the input area",
+            "Click the 'Convert' button to transform it to plain text",
+            "The converted text will appear in the output area",
+            "Click the 'Copy' button to copy the result to your clipboard"
+        ]
+    },
+    "footer": "MD2TXT",
+    "language": {
+        "en": "English",
+        "zh": "中文"
+    }
+}

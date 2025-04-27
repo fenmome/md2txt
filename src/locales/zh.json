@@ -1,0 +1,39 @@
+{
+    "title": "MD2TXT - Markdown 转文本工具",
+    "header": "MD2TXT",
+    "description": "在线转换 Markdown 为纯文本",
+    "input": {
+        "title": "输入 Markdown",
+        "placeholder": "在此输入 Markdown 文本..."
+    },
+    "buttons": {
+        "convert": "转换",
+        "clear": "清空",
+        "copy": "复制"
+    },
+    "output": {
+        "title": "输出文本",
+        "placeholder": "转换后的文本将显示在这里..."
+    },
+    "messages": {
+        "inputRequired": "请输入 Markdown 文本",
+        "converted": "转换完成",
+        "copied": "已复制到剪贴板",
+        "cleared": "已清空内容",
+        "nothingToCopy": "没有可复制的内容"
+    },
+    "instructions": {
+        "title": "使用说明",
+        "steps": [
+            "在输入区域输入或粘贴 Markdown 文本",
+            "点击\"转换\"按钮将其转换为纯文本",
+            "转换后的文本将显示在输出区域",
+            "点击\"复制\"按钮将结果复制到剪贴板"
+        ]
+    },
+    "footer": "MD2TXT",
+    "language": {
+        "en": "English",
+        "zh": "中文"
+    }
+}
