@@ -1,0 +1,6 @@
+name = "md2txt"
+compatibility_date = "2024-04-27"
+
+[site]
+bucket = "./dist"
+entry-point = "./dist/index.html" 

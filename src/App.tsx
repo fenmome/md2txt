@@ -1,9 +1,10 @@
 import React, { useState, ChangeEvent } from 'react';
 import { Layout, Card, Input, Button, message, Typography, Space, Select } from 'antd';
-import { CopyOutlined, ClearOutlined, GlobalOutlined } from '@ant-design/icons';
+import { CopyOutlined, ClearOutlined, GlobalOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import * as marked from 'marked';
 import { useTranslation } from 'react-i18next';
+import { convertToPDF, convertToWord } from './utils/exportUtils';
 
 const { Header, Content, Footer } = Layout;
 const { Title, Paragraph } = Typography;
@@ -51,11 +52,50 @@ const App: React.FC = () => {
 
   const steps = t('instructions.steps', { returnObjects: true }) as string[];
 
+  const handleExportPDF = async () => {
+    try {
+      const pdfBuffer = await convertToPDF(md);
+      const blob = new Blob([pdfBuffer], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'document.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      message.success('PDF导出成功');
+    } catch (error) {
+      message.error('PDF导出失败');
+      console.error(error);
+    }
+  };
+
+  const handleExportWord = async () => {
+    try {
+      const wordBuffer = await convertToWord(md);
+      const blob = new Blob([wordBuffer], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'document.docx';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      message.success('Word导出成功');
+    } catch (error) {
+      message.error('Word导出失败');
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <Helmet>
         <title>{t('title')}</title>
         <meta name="description" content={t('description')} />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossOrigin="anonymous"></script>
       </Helmet>
       <Layout>
         <Header>
@@ -112,6 +152,23 @@ const App: React.FC = () => {
                   {t('buttons.copy')}
                 </Button>
               </div>
+
+              <Space>
+                <Button 
+                  type="primary" 
+                  icon={<DownloadOutlined />} 
+                  onClick={handleExportPDF}
+                >
+                  {t('buttons.exportPDF')}
+                </Button>
+                <Button 
+                  type="primary" 
+                  icon={<DownloadOutlined />} 
+                  onClick={handleExportWord}
+                >
+                  {t('buttons.exportWord')}
+                </Button>
+              </Space>
             </Space>
           </Card>
 

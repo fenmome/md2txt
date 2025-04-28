@@ -17,4 +17,23 @@ export default defineConfig({
     port: 3000,
     open: true,
   },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'antd-vendor': ['antd', '@ant-design/icons'],
+          'i18n-vendor': ['i18next', 'react-i18next'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+  },
+  base: './',
+  preview: {
+    port: 4173,
+    open: true,
+  }
 }) 
