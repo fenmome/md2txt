@@ -1,10 +1,10 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import { Layout, Card, Input, Button, message, Typography, Space, Select } from 'antd';
-import { CopyOutlined, ClearOutlined, GlobalOutlined, DownloadOutlined } from '@ant-design/icons';
+import { CopyOutlined, ClearOutlined, GlobalOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import * as marked from 'marked';
 import { useTranslation } from 'react-i18next';
-import { convertToPDF, convertToWord } from './utils/exportUtils';
+import './App.css';
 
 const { Header, Content, Footer } = Layout;
 const { Title, Paragraph } = Typography;
@@ -18,175 +18,109 @@ function mdToText(md: string): string {
 }
 
 const App: React.FC = () => {
-  const [md, setMd] = useState('');
+  const [markdown, setMarkdown] = useState('');
   const [text, setText] = useState('');
   const { t, i18n } = useTranslation();
 
-  const handleConvert = () => {
-    if (!md.trim()) {
-      message.warning(t('messages.inputRequired'));
-      return;
-    }
-    setText(mdToText(md));
-    message.success(t('messages.converted'));
+  // 根据浏览器语言设置默认语言
+  useEffect(() => {
+    const browserLang = navigator.language.split('-')[0];
+    const defaultLang = ['zh', 'en'].includes(browserLang) ? browserLang : 'en';
+    i18n.changeLanguage(defaultLang);
+  }, [i18n]);
+
+  const handleMarkdownChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const newMarkdown = e.target.value;
+    setMarkdown(newMarkdown);
+    setText(mdToText(newMarkdown));
   };
 
   const handleCopy = () => {
-    if (!text) {
-      message.warning(t('messages.nothingToCopy'));
-      return;
-    }
     navigator.clipboard.writeText(text);
-    message.success(t('messages.copied'));
+    message.success(t('copySuccess'));
   };
 
   const handleClear = () => {
-    setMd('');
+    setMarkdown('');
     setText('');
-    message.success(t('messages.cleared'));
   };
 
-  const handleLanguageChange = (lang: string) => {
-    i18n.changeLanguage(lang);
-  };
-
-  const steps = t('instructions.steps', { returnObjects: true }) as string[];
-
-  const handleExportPDF = async () => {
-    try {
-      const pdfBuffer = await convertToPDF(md);
-      const blob = new Blob([pdfBuffer], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'document.pdf';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      message.success('PDF导出成功');
-    } catch (error) {
-      message.error('PDF导出失败');
-      console.error(error);
-    }
-  };
-
-  const handleExportWord = async () => {
-    try {
-      const wordBuffer = await convertToWord(md);
-      const blob = new Blob([wordBuffer], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'document.docx';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      message.success('Word导出成功');
-    } catch (error) {
-      message.error('Word导出失败');
-      console.error(error);
-    }
+  const handleLanguageChange = (value: string) => {
+    i18n.changeLanguage(value);
   };
 
   return (
     <>
       <Helmet>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2364356627109311" crossOrigin="anonymous"></script>
         <title>{t('title')}</title>
         <meta name="description" content={t('description')} />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossOrigin="anonymous"></script>
       </Helmet>
-      <Layout>
-        <Header>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '100%' }}>
-            <Title level={2} style={{ margin: 0 }}>{t('header')}</Title>
+      <Layout className="app-layout">
+        <Header className="app-header">
+          <div className="header-content">
+            <Title level={3} className="app-title">{t('header.title')}</Title>
             <Select
-              defaultValue={i18n.language}
-              style={{ width: 120 }}
+              className="language-selector"
+              value={i18n.language}
               onChange={handleLanguageChange}
-              prefix={<GlobalOutlined />}
+              suffixIcon={<GlobalOutlined />}
             >
-              <Option value="en">{t('language.en')}</Option>
-              <Option value="zh">{t('language.zh')}</Option>
+              <Option value="zh">{t('header.language.zh')}</Option>
+              <Option value="en">{t('header.language.en')}</Option>
             </Select>
           </div>
         </Header>
-
-        <Content>
-          <Card>
-            <Space direction="vertical" style={{ width: '100%' }} size="large">
-              <div>
-                <Title level={4}>{t('input.title')}</Title>
-                <TextArea
-                  value={md}
-                  onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setMd(e.target.value)}
-                  placeholder={t('input.placeholder')}
-                  autoSize={{ minRows: 6, maxRows: 12 }}
-                />
+        <Content className="app-content">
+          <Space direction="vertical" size="large" className="content-space">
+            <Card className="input-card">
+              <Title level={4} className="card-title">{t('input.title')}</Title>
+              <TextArea
+                className="markdown-input"
+                value={markdown}
+                onChange={handleMarkdownChange}
+                placeholder={t('input.placeholder')}
+                autoSize={{ minRows: 10, maxRows: 20 }}
+              />
+            </Card>
+            <Card className="output-card">
+              <Title level={4} className="card-title">{t('output.title')}</Title>
+              <div className="button-group">
+                <Space>
+                  <Button 
+                    type="primary" 
+                    icon={<CopyOutlined />} 
+                    onClick={handleCopy}
+                    className="action-button"
+                  >
+                    {t('buttons.copy')}
+                  </Button>
+                  <Button 
+                    icon={<ClearOutlined />} 
+                    onClick={handleClear}
+                    className="action-button"
+                  >
+                    {t('buttons.clear')}
+                  </Button>
+                </Space>
               </div>
-
-              <Space wrap>
-                <Button type="primary" onClick={handleConvert}>
-                  {t('buttons.convert')}
-                </Button>
-                <Button icon={<ClearOutlined />} onClick={handleClear}>
-                  {t('buttons.clear')}
-                </Button>
-              </Space>
-
-              <div>
-                <Title level={4}>{t('output.title')}</Title>
-                <TextArea
-                  value={text}
-                  readOnly
-                  placeholder={t('output.placeholder')}
-                  autoSize={{ minRows: 6, maxRows: 12 }}
-                />
-                <Button
-                  icon={<CopyOutlined />}
-                  onClick={handleCopy}
-                  style={{ marginTop: 16 }}
-                  disabled={!text}
-                >
-                  {t('buttons.copy')}
-                </Button>
-              </div>
-
-              <Space>
-                <Button 
-                  type="primary" 
-                  icon={<DownloadOutlined />} 
-                  onClick={handleExportPDF}
-                >
-                  {t('buttons.exportPDF')}
-                </Button>
-                <Button 
-                  type="primary" 
-                  icon={<DownloadOutlined />} 
-                  onClick={handleExportWord}
-                >
-                  {t('buttons.exportWord')}
-                </Button>
-              </Space>
-            </Space>
-          </Card>
-
-          <Card style={{ marginTop: 24 }}>
-            <Title level={4}>{t('instructions.title')}</Title>
-            <Paragraph>
-              {steps.map((step: string, index: number) => (
-                <React.Fragment key={index}>
-                  {index + 1}. {step}
-                  <br />
-                </React.Fragment>
-              ))}
-            </Paragraph>
-          </Card>
+              <TextArea
+                className="text-output"
+                value={text}
+                readOnly
+                autoSize={{ minRows: 10, maxRows: 20 }}
+              />
+            </Card>
+            <Card className="description-card">
+              <Title level={4} className="card-title">{t('websiteDescription.title')}</Title>
+              <Paragraph className="description-text">
+                {t('websiteDescription.content')}
+              </Paragraph>
+            </Card>
+          </Space>
         </Content>
-
-        <Footer>
-          {t('footer')} ©{new Date().getFullYear()}
+        <Footer className="app-footer">
+          MD2TXT ©{new Date().getFullYear()} {t('footer')}
         </Footer>
       </Layout>
     </>

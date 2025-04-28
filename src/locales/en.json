@@ -1,10 +1,16 @@
 {
     "title": "MD2TXT - Markdown to Text Converter",
-    "header": "MD2TXT",
-    "description": "Convert Markdown to plain text online",
+    "header": {
+        "title": "MD2TXT",
+        "language": {
+            "zh": "中文",
+            "en": "English"
+        }
+    },
+    "description": "Convert Markdown format to plain text online",
     "input": {
         "title": "Input Markdown",
-        "placeholder": "Enter your Markdown text here..."
+        "placeholder": "Enter Markdown text here..."
     },
     "buttons": {
         "convert": "Convert",
@@ -12,7 +18,7 @@
         "copy": "Copy"
     },
     "output": {
-        "title": "Output Text",
+        "title": "Plain Text Output",
         "placeholder": "Converted text will appear here..."
     },
     "messages": {
@@ -31,9 +37,13 @@
             "Click the 'Copy' button to copy the result to your clipboard"
         ]
     },
-    "footer": "MD2TXT",
+    "footer": "Created by MD2TXT",
     "language": {
         "en": "English",
         "zh": "中文"
+    },
+    "websiteDescription": {
+        "title": "About MD2TXT",
+        "content": "MD2TXT is a simple and easy-to-use online tool that converts Markdown formatted text to plain text. It supports real-time conversion, allowing you to see the results immediately. Key features include:\n\n1. Real-time Markdown to plain text conversion\n2. Copy converted text with one click\n3. Support for Chinese and English interface switching\n4. Clean and intuitive user interface\n\nHow to use:\n1. Enter or paste Markdown text in the input box\n2. The conversion result will be displayed in real-time in the output box\n3. Click the copy button to copy the converted text\n4. Use the clear button to reset input and output"
     }
 }

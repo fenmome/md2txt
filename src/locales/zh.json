@@ -1,7 +1,13 @@
 {
     "title": "MD2TXT - Markdown 转文本工具",
-    "header": "MD2TXT",
-    "description": "在线转换 Markdown 为纯文本",
+    "header": {
+        "title": "MD2TXT",
+        "language": {
+            "zh": "中文",
+            "en": "English"
+        }
+    },
+    "description": "在线将 Markdown 格式转换为纯文本",
     "input": {
         "title": "输入 Markdown",
         "placeholder": "在此输入 Markdown 文本..."
@@ -12,7 +18,7 @@
         "copy": "复制"
     },
     "output": {
-        "title": "输出文本",
+        "title": "纯文本输出",
         "placeholder": "转换后的文本将显示在这里..."
     },
     "messages": {
@@ -31,9 +37,13 @@
             "点击\"复制\"按钮将结果复制到剪贴板"
         ]
     },
-    "footer": "MD2TXT",
+    "footer": "由 MD2TXT 创建",
     "language": {
         "en": "English",
         "zh": "中文"
+    },
+    "websiteDescription": {
+        "title": "关于 MD2TXT",
+        "content": "MD2TXT 是一个简单易用的在线工具，可以将 Markdown 格式的文本转换为纯文本。它支持实时转换，让您可以立即看到转换结果。主要功能包括：\n\n1. 实时 Markdown 到纯文本的转换\n2. 支持复制转换后的文本\n3. 支持中英文界面切换\n4. 简洁直观的用户界面\n\n使用方法：\n1. 在输入框中输入或粘贴 Markdown 文本\n2. 转换结果会实时显示在输出框中\n3. 点击复制按钮复制转换后的文本\n4. 使用清空按钮重置输入和输出"
     }
 }
