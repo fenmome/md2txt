@@ -53,6 +53,15 @@ const App: React.FC = () => {
     <>
       <Helmet>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2364356627109311" crossOrigin="anonymous"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-D5P79ZC8GZ"></script>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-D5P79ZC8GZ');
+          `
+        }} />
         <title>{t('title')}</title>
         <meta name="description" content={t('description')} />
       </Helmet>
